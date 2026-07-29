@@ -25,18 +25,11 @@ loadHome(req, res) {
 
             const user = await UserService.registerUser(req.body);
 
-            res.status(201).json({
-                success: true,
-                message: "User Registered Successfully",
-                data: user
-            });
+           res.redirect("/login");
 
         } catch (error) {
 
-            res.status(400).json({
-                success: false,
-                message: error.message
-            });
+             res.status(400).send(error.message);
 
         }
 
