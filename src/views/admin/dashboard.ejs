@@ -1,76 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-        <link rel="stylesheet" href="/css/style.css">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
+<body class="bg-light">
 
-    <h1>Admin Dashboard</h1>
+<div class="container mt-5">
 
-    <a href="/admin/add-user">
-        <button>Add User</button>
-    </a>
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <br><br>
+       <h2 class="text-primary fw-bold">
+            User Management Dashboard
+        </h2>
 
-    <form action="/admin/dashboard" method="GET">
+        <div>
+
+<p class="text-muted mb-4">
+
+    Total Users :
+    <strong><%= users.length %></strong>
+
+</p>
+            <a href="/admin/add-user" class="btn btn-success me-2">
+                + Add User
+            </a>
+
+            <a href="/admin/logout" class="btn btn-secondary">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Success Message -->
+    <% if(success){ %>
+
+        <div class="alert alert-success alert-dismissible fade show">
+
+            <%= success %>
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
+        </div>
+
+    <% } %>
+
+    <!-- Search -->
+    <div class="card shadow-sm p-3 mb-4">
+
+<form action="/admin/dashboard" method="GET">
+
+<div class="row">
+
+<div class="col-md-9">
 
 <input
 type="text"
 name="search"
-placeholder="Search User">
+class="form-control"
+placeholder="Search user by name">
 
-<button type="submit">
+</div>
+
+<div class="col-md-3">
+
+<button
+class="btn btn-primary w-100">
 
 Search
 
 </button>
 
+</div>
+
+</div>
+
 </form>
 
-<br>
+</div>
+    <!-- Users Table -->
+    <div class="table-responsive">
 
-    <table border="1" cellpadding="10">
+        <table class="table table-bordered table-hover table-striped shadow">
 
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
+            <thead class="table-dark">
 
-        <% users.forEach(user => { %>
+                <tr>
 
-            <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
 
-                <td><%= user.name %></td>
+                </tr>
 
-                <td><%= user.email %></td>
+            </thead>
 
-                <td><%= user.role %></td>
+            <tbody>
 
-                <td>
-                    <a href="/admin/edit-user/<%= user._id %>">
-                        <button>Edit</button>
-                    </a>
-                </td>
+            <% users.forEach(user => { %>
 
-                <td>
-                    <a href="/admin/delete-user/<%= user._id %>">
-                        <button>Delete</button>
-                    </a>
-                </td>
+                <tr>
 
-            </tr>
+                    <td><%= user.name %></td>
 
-        <% }) %>
+                    <td><%= user.email %></td>
 
-    </table>
+                    <td>
+
+                        <span class="badge bg-info">
+
+                            <%= user.role %>
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="/admin/edit-user/<%= user._id %>"
+                            class="btn btn-warning btn-sm">
+
+                            Edit
+
+                        </a>
+
+                    </td>
+
+                    <td>
+
+                        <a
+    href="#"
+    class="btn btn-danger btn-sm"
+    data-bs-toggle="modal"
+    data-bs-target="#deleteModal"
+    onclick="setDeleteId('<%= user._id %>')">
+
+    Delete
+
+</a>
+
+                    </td>
+
+                </tr>
+
+            <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+setTimeout(function () {
+
+    const alert = document.querySelector(".alert");
+
+    if (alert) {
+
+        alert.classList.remove("show");
+
+        alert.classList.add("fade");
+
+        setTimeout(() => {
+
+            alert.remove();
+
+        }, 500);
+
+    }
+
+}, 3000);
+
+</script>
+
+<!-- Delete Confirmation Modal -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    Confirm Delete
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                Are you sure you want to delete this user?
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+                <a
+                    id="confirmDeleteBtn"
+                    href="#"
+                    class="btn btn-danger">
+
+                    Delete
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function setDeleteId(id) {
+
+    document.getElementById("confirmDeleteBtn").href =
+        "/admin/delete-user/" + id;
+
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

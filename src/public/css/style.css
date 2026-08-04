@@ -3,63 +3,40 @@
 }
 
 body {
+    background-color: #f8f9fa;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 40px;
 }
 
-h1, h2 {
-    text-align: center;
-}
-
-form {
-    background: white;
-    max-width: 400px;
-    margin: 30px auto;
-    padding: 25px;
-    border-radius: 8px;
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px 18px;
+/* Card styling */
+.card {
+    border-radius: 10px;
     border: none;
-    border-radius: 5px;
-    background-color: #333;
-    color: white;
-    cursor: pointer;
 }
 
-button:hover {
-    background-color: #555;
+/* Table */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-table {
-    width: 90%;
-    margin: 25px auto;
-    border-collapse: collapse;
-    background: white;
+/* Buttons */
+.btn {
+    border-radius: 6px;
 }
 
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: center;
+/* Inputs */
+.form-control,
+.form-select {
+    border-radius: 6px;
 }
 
-th {
-    background-color: #333;
-    color: white;
+/* Page headings */
+h2,
+h3 {
+    font-weight: 600;
 }
 
-a {
-    text-decoration: none;
+/* Dashboard spacing */
+.container {
+    margin-top: 30px;
 }

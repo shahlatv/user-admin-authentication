@@ -29,10 +29,11 @@ loadHome(req, res) {
 
         } catch (error) {
 
-             res.status(400).send(error.message);
+    return res.render("user/signup", {
+        error: error.message
+    });
 
-        }
-
+}
     }
 
 
@@ -50,9 +51,11 @@ async login(req, res) {
 
     } catch (error) {
 
-        res.send(error.message);
+    return res.render("user/login", {
+        error: error.message
+    });
 
-    }
+}
 
 }
 

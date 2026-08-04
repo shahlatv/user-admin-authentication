@@ -22,7 +22,9 @@ class AdminController {
 
         }
 
-        res.send("Invalid Admin Credentials");
+      return res.render("admin/login", {
+    error: "Invalid Email or Password"
+});
     }
 
     async loadDashboard(req, res) {
@@ -37,7 +39,8 @@ class AdminController {
     });
 
     res.render("admin/dashboard", {
-        users
+        users,
+         success: req.query.success
     });
 
 }
@@ -53,13 +56,15 @@ async addUser(req, res) {
 
         await UserService.registerUser(req.body);
 
-        res.redirect("/admin/dashboard");
+       res.redirect("/admin/dashboard?success=User added successfully");
 
     } catch (error) {
 
-        res.send(error.message);
+    console.log(error);
 
-    }
+    return res.status(500).send("Something went wrong.");
+
+}
 
 }
 
@@ -73,10 +78,11 @@ async loadEditUser(req, res) {
 
     } catch (error) {
 
-        res.send(error.message);
+    console.log(error);
 
-    }
+    return res.status(500).send("Something went wrong.");
 
+}
 }
 
 async updateUser(req, res) {
@@ -94,13 +100,15 @@ async updateUser(req, res) {
             }
         );
 
-        res.redirect("/admin/dashboard");
+      res.redirect("/admin/dashboard?success=User updated successfully");
 
     } catch (error) {
 
-        res.send(error.message);
+    console.log(error);
 
-    }
+    return res.status(500).send("Something went wrong.");
+
+}
 
 }
 
@@ -111,16 +119,27 @@ async deleteUser(req, res) {
 
         await User.findByIdAndDelete(req.params.id);
 
-        res.redirect("/admin/dashboard");
+        res.redirect("/admin/dashboard?success=User deleted successfully");
 
     } catch (error) {
 
-        res.send(error.message);
+    console.log(error);
 
-    }
+    return res.status(500).send("Something went wrong.");
 
 }
 
+}
+
+logout(req, res) {
+
+    req.session.destroy(() => {
+
+        res.redirect("/admin/login");
+
+    });
+
+}
 
 }
 
