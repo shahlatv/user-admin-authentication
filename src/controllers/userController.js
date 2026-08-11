@@ -6,9 +6,13 @@ class UserController {
 loadSignup(req, res) {
     res.render("user/signup");
 }
-
 loadLogin(req, res) {
-    res.render("user/login");
+
+    res.render("user/login", {
+        success: req.query.success,
+        error: req.query.error
+    });
+
 }
 
 loadHome(req, res) {
@@ -25,7 +29,7 @@ loadHome(req, res) {
 
             const user = await UserService.registerUser(req.body);
 
-           res.redirect("/login");
+         res.redirect("/login?success=Registration successful. Please login.");
 
         } catch (error) {
 
@@ -51,14 +55,13 @@ async login(req, res) {
 
     } catch (error) {
 
-    return res.render("user/login", {
-        error: error.message
-    });
+        return res.render("user/login", {
+            error: error.message
+        });
+
+    }
 
 }
-
-}
-
 
 logout(req, res) {
 

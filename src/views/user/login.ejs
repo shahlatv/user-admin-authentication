@@ -8,7 +8,10 @@
 
     <title>User Login</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="/css/style.css">
 
 </head>
@@ -23,28 +26,73 @@
 
             <div class="card shadow">
 
+                <!-- Header -->
+
                 <div class="card-header bg-primary text-white text-center">
 
                     <h3>User Login</h3>
 
                 </div>
 
+
+                <!-- Card Body -->
+
                 <div class="card-body">
 
-    <% if (typeof error !== 'undefined') { %>
+                    <!-- Signup Success Message -->
 
-        <div class="alert alert-danger">
+                   <% if (typeof success !== 'undefined' && success) { %>
 
-            <%= error %>
+                        <div
+                            class="alert alert-success alert-dismissible fade show"
+                            role="alert">
 
-        </div>
+                            <%= success %>
 
-    <% } %>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                            </button>
 
-    <form action="/login" method="POST">
+                        </div>
+
+                    <% } %>
+
+
+                    <!-- Login Error Message -->
+
+                    <% if (typeof error !== 'undefined') { %>
+
+                        <div
+                            class="alert alert-danger alert-dismissible fade show"
+                            role="alert">
+
+                            <%= error %>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                            </button>
+
+                        </div>
+
+                    <% } %>
+
+
+                    <!-- Login Form -->
+
+                    <form action="/login" method="POST">
+
+
+                        <!-- Email -->
+
                         <div class="mb-3">
 
-                            <label class="form-label">Email</label>
+                            <label class="form-label">
+                                Email
+                            </label>
 
                             <input
                                 type="email"
@@ -55,18 +103,40 @@
 
                         </div>
 
+
+                        <!-- Password -->
+
                         <div class="mb-3">
 
-                            <label class="form-label">Password</label>
+                            <label class="form-label">
+                                Password
+                            </label>
 
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control"
-                                placeholder="Enter your password"
-                                required>
+                            <div class="input-group">
+
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="loginPassword"
+                                    class="form-control"
+                                    placeholder="Enter your password"
+                                    required>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary"
+                                    onclick="togglePassword('loginPassword', this)">
+
+                                    👁️
+
+                                </button>
+
+                            </div>
 
                         </div>
+
+
+                        <!-- Login Button -->
 
                         <button
                             type="submit"
@@ -78,16 +148,18 @@
 
                     </form>
 
+
                     <hr>
+
+
+                    <!-- Signup Link -->
 
                     <p class="text-center">
 
                         Don't have an account?
 
                         <a href="/signup">
-
                             Signup
-
                         </a>
 
                     </p>
@@ -102,7 +174,54 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Password Show/Hide -->
+
+<script>
+
+function togglePassword(inputId, button) {
+
+    const passwordInput =
+        document.getElementById(inputId);
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+        button.innerHTML = "🙈";
+
+    } else {
+
+        passwordInput.type = "password";
+
+        button.innerHTML = "👁️";
+
+    }
+
+}
+
+</script>
+
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script>
+
+setTimeout(function () {
+
+    const successAlert = document.querySelector(".alert-success");
+
+    if (successAlert) {
+        successAlert.remove();
+    }
+
+}, 3000);
+
+</script>
 
 </body>
 

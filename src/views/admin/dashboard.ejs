@@ -2,12 +2,18 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Admin Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="/css/style.css">
+
 </head>
 
 <body class="bg-light">
@@ -17,34 +23,49 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-       <h2 class="text-primary fw-bold">
-            User Management Dashboard
-        </h2>
+        <div>
+
+            <h2 class="text-primary fw-bold mb-1">
+                User Management Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Total Users:
+                <strong><%= users.length %></strong>
+            </p>
+
+        </div>
 
         <div>
 
-<p class="text-muted mb-4">
+            <a
+                href="/admin/add-user"
+                class="btn btn-success me-2">
 
-    Total Users :
-    <strong><%= users.length %></strong>
-
-</p>
-            <a href="/admin/add-user" class="btn btn-success me-2">
                 + Add User
+
             </a>
 
-            <a href="/admin/logout" class="btn btn-secondary">
+            <a
+                href="/admin/logout"
+                class="btn btn-secondary">
+
                 Logout
+
             </a>
 
         </div>
 
     </div>
 
-    <!-- Success Message -->
-    <% if(success){ %>
 
-        <div class="alert alert-success alert-dismissible fade show">
+    <!-- Success Message -->
+
+    <% if (success) { %>
+
+        <div
+            class="alert alert-success alert-dismissible fade show"
+            role="alert">
 
             <%= success %>
 
@@ -58,40 +79,66 @@
 
     <% } %>
 
+
     <!-- Search -->
+
     <div class="card shadow-sm p-3 mb-4">
 
-<form action="/admin/dashboard" method="GET">
+    <form action="/admin/dashboard" method="GET">
 
-<div class="row">
+        <div class="row g-2">
 
-<div class="col-md-9">
+            <div class="col-md-10">
 
-<input
-type="text"
-name="search"
-class="form-control"
-placeholder="Search user by name">
+                <div class="position-relative">
+
+                    <input
+                        type="text"
+                        name="search"
+                        id="searchInput"
+                        class="form-control pe-5"
+                        placeholder="Search user by name"
+                        value="<%= search %>">
+
+                    <% if (search) { %>
+
+                        <button
+                            type="button"
+                            class="btn btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
+                            onclick="clearSearch()"
+                            style="border: none; background: transparent; color: #666;">
+
+                            ×
+
+                        </button>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary w-100">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
 
 </div>
 
-<div class="col-md-3">
 
-<button
-class="btn btn-primary w-100">
-
-Search
-
-</button>
-
-</div>
-
-</div>
-
-</form>
-
-</div>
     <!-- Users Table -->
+
     <div class="table-responsive">
 
         <table class="table table-bordered table-hover table-striped shadow">
@@ -112,54 +159,58 @@ Search
 
             <tbody>
 
-            <% users.forEach(user => { %>
+                <% users.forEach(user => { %>
 
-                <tr>
+                    <tr>
 
-                    <td><%= user.name %></td>
+                        <td>
+                            <%= user.name %>
+                        </td>
 
-                    <td><%= user.email %></td>
+                        <td>
+                            <%= user.email %>
+                        </td>
 
-                    <td>
+                        <td>
 
-                        <span class="badge bg-info">
+                            <span class="badge bg-info">
 
-                            <%= user.role %>
+                                <%= user.role %>
 
-                        </span>
+                            </span>
 
-                    </td>
+                        </td>
 
-                    <td>
+                        <td>
 
-                        <a
-                            href="/admin/edit-user/<%= user._id %>"
-                            class="btn btn-warning btn-sm">
+                            <a
+                                href="/admin/edit-user/<%= user._id %>"
+                                class="btn btn-warning btn-sm">
 
-                            Edit
+                                Edit
 
-                        </a>
+                            </a>
 
-                    </td>
+                        </td>
 
-                    <td>
+                        <td>
 
-                        <a
-    href="#"
-    class="btn btn-danger btn-sm"
-    data-bs-toggle="modal"
-    data-bs-target="#deleteModal"
-    onclick="setDeleteId('<%= user._id %>')">
+                            <a
+                                href="#"
+                                class="btn btn-danger btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                onclick="setDeleteId('<%= user._id %>')">
 
-    Delete
+                                Delete
 
-</a>
+                            </a>
 
-                    </td>
+                        </td>
 
-                </tr>
+                    </tr>
 
-            <% }) %>
+                <% }) %>
 
             </tbody>
 
@@ -169,33 +220,15 @@ Search
 
 </div>
 
-<script>
-
-setTimeout(function () {
-
-    const alert = document.querySelector(".alert");
-
-    if (alert) {
-
-        alert.classList.remove("show");
-
-        alert.classList.add("fade");
-
-        setTimeout(() => {
-
-            alert.remove();
-
-        }, 500);
-
-    }
-
-}, 3000);
-
-</script>
 
 <!-- Delete Confirmation Modal -->
 
-<div class="modal fade" id="deleteModal" tabindex="-1">
+<div
+    class="modal fade"
+    id="deleteModal"
+    tabindex="-1"
+    aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
 
     <div class="modal-dialog">
 
@@ -203,7 +236,9 @@ setTimeout(function () {
 
             <div class="modal-header">
 
-                <h5 class="modal-title">
+                <h5
+                    class="modal-title"
+                    id="deleteModalLabel">
 
                     Confirm Delete
 
@@ -251,6 +286,9 @@ setTimeout(function () {
 
 </div>
 
+
+<!-- Delete Modal JavaScript -->
+
 <script>
 
 function setDeleteId(id) {
@@ -262,7 +300,47 @@ function setDeleteId(id) {
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+function clearSearch() {
+
+    window.location.href = "/admin/dashboard";
+
+}
+
+</script>
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- Auto-hide Success Message -->
+
+<script>
+
+setTimeout(function () {
+
+    const alert = document.querySelector(".alert-success");
+
+    if (alert) {
+
+        alert.classList.remove("show");
+
+        setTimeout(function () {
+
+            alert.remove();
+
+        }, 500);
+
+    }
+
+}, 3000);
+
+</script>
+
 
 </body>
 

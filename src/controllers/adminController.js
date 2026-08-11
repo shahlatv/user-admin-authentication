@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+
 const UserService = require("../services/userService");
 
 class AdminController {
@@ -31,20 +31,14 @@ class AdminController {
 
     const search = req.query.search || "";
 
-    const users = await User.find({
-        name: {
-            $regex: search,
-            $options: "i"
-        }
-    });
+    const users = await UserService.getUsers(search);
 
     res.render("admin/dashboard", {
         users,
-         success: req.query.success
+        search,
+        success: req.query.success
     });
-
 }
-
 
     loadAddUser(req, res) {
     res.render("admin/add-user");
@@ -72,7 +66,7 @@ async loadEditUser(req, res) {
 
     try {
 
-        const user = await User.findById(req.params.id);
+        const user = await UserService.getUserById(req.params.id);
 
         res.render("admin/edit-user", { user });
 
@@ -89,16 +83,10 @@ async updateUser(req, res) {
 
     try {
 
-        const { name, email, role } = req.body;
-
-        await User.findByIdAndUpdate(
-            req.params.id,
-            {
-                name,
-                email,
-                role
-            }
-        );
+        await UserService.updateUser(
+    req.params.id,
+    req.body
+);
 
       res.redirect("/admin/dashboard?success=User updated successfully");
 
@@ -117,7 +105,7 @@ async deleteUser(req, res) {
 
     try {
 
-        await User.findByIdAndDelete(req.params.id);
+       await UserService.deleteUser(req.params.id);
 
         res.redirect("/admin/dashboard?success=User deleted successfully");
 
